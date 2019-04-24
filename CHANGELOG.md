@@ -11,5 +11,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Template based on [package-template v0.1.0](https://github.com/AckeeCZ/package-template/tree/v0.1.0)
 - Basic protocol implementation with working TS types and very basic validation
 
-[Unreleased]: https://github.com/grissius/intspector/compare/v0.0.0...HEAD
-[0.0.0]: https://github.com/grissius/intspector/compare/76d2238...v0.0.0
+[Unreleased]: https://github.com/rapassata/rapassata/compare/v0.0.0...HEAD
+[0.0.0]: https://github.com/rapassata/rapassata/compare/311e0e7...v0.0.0
