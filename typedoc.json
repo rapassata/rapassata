@@ -1,0 +1,7 @@
+{
+    "includeDeclarations": true,
+    "excludeExternals": true,
+    "name": "Rapsassata",
+    "mode": "file",
+    "out": "docs"
+}
