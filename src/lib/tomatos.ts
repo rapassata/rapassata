@@ -52,7 +52,7 @@ export interface ObjectShapedTomato<T, R extends boolean = false> extends Tomato
 
 export interface RecordShapedTomato<T, R extends boolean = false> extends Tomato<T, R, TomatoShape.Record> {
     shape: TomatoShape.Record;
-    structure: Record<any, T>;
+    item: AnyShapeTomato;
 }
 
 export type AnyShapeTomato<T = any, R extends boolean = any> =
@@ -78,6 +78,6 @@ export interface Breeds {
     boolean: AtomShapedTomato<boolean>;
     any: AtomShapedTomato<any>;
     array: <T extends AnyShapeTomato>(x: T) => ArrayTomato<T>;
-    objectOf: <V>(val: V) => RecordTomato<Record<any, V>>;
+    objectOf: <V extends AnyShapeTomato>(val: V) => RecordTomato<Record<any, V>>;
     object: <V>(val: V) => ObjectTomato<V>;
 }

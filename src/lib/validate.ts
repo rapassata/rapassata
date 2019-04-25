@@ -156,6 +156,18 @@ export const validate = (schema: AnyShapeTomato, value: any): any => {
         };
     }
     value = isObject(value) ? value : {};
+    if (schema.shape === TomatoShape.Record) {
+        return {
+            ...flowRes,
+            structure: Object.keys(value).reduce(
+                (res, key) => {
+                    res[key] = validate(schema.item, value[key]);
+                    return res;
+                },
+                {} as any
+            ),
+        }
+    }
     return {
         ...flowRes,
         structure: Object.keys(schema.structure).reduce(
