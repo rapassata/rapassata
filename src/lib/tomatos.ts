@@ -9,19 +9,27 @@ export const enum TomatoShape {
 }
 
 export interface Tomato<
-T,
-R extends boolean = false,
-S extends TomatoShape = TomatoShape.Atom,
-BakedTomato = S extends TomatoShape.Atom ? AtomShapedTomato<T, R>
-: S extends TomatoShape.Array ? ArrayShapedTomato<T, R>
-: S extends TomatoShape.Object ? ObjectShapedTomato<T, R>
-: S extends TomatoShape.Record ? RecordShapedTomato<T, R>
-: T,
-TrueBakedTomato = S extends TomatoShape.Atom ? AtomShapedTomato<T, true>
-: S extends TomatoShape.Array ? ArrayShapedTomato<T, true>
-: S extends TomatoShape.Object ? ObjectShapedTomato<T, true>
-: S extends TomatoShape.Record ? RecordShapedTomato<T, true>
-: T,
+    T,
+    R extends boolean = false,
+    S extends TomatoShape = TomatoShape.Atom,
+    BakedTomato = S extends TomatoShape.Atom
+        ? AtomShapedTomato<T, R>
+        : S extends TomatoShape.Array
+        ? ArrayShapedTomato<T, R>
+        : S extends TomatoShape.Object
+        ? ObjectShapedTomato<T, R>
+        : S extends TomatoShape.Record
+        ? RecordShapedTomato<T, R>
+        : T,
+    TrueBakedTomato = S extends TomatoShape.Atom
+        ? AtomShapedTomato<T, true>
+        : S extends TomatoShape.Array
+        ? ArrayShapedTomato<T, true>
+        : S extends TomatoShape.Object
+        ? ObjectShapedTomato<T, true>
+        : S extends TomatoShape.Record
+        ? RecordShapedTomato<T, true>
+        : T
 > {
     shape: TomatoShape;
     required: boolean;
@@ -33,7 +41,6 @@ TrueBakedTomato = S extends TomatoShape.Atom ? AtomShapedTomato<T, true>
     defaultTo: (defVal: Values2<T, T, S>) => TrueBakedTomato;
     validate: (fn: (val: Values2<T, T, S>) => boolean | Promise<boolean>, message?: string) => BakedTomato;
 }
-
 
 // Tomato variances
 export interface AtomShapedTomato<T, R extends boolean = false> extends Tomato<T, R, TomatoShape.Atom> {
@@ -61,11 +68,15 @@ export type AnyShapeTomato<T = any, R extends boolean = any> =
     | ObjectShapedTomato<T, R>
     | RecordShapedTomato<T, R>;
 
-type BakeShape<T> = T extends Tomato<infer U, infer R, TomatoShape.Atom> ? AtomShapedTomato<U, R>
-: T extends Tomato<infer U, infer R, TomatoShape.Array> ? ArrayShapedTomato<U, R>
-: T extends Tomato<infer U, infer R, TomatoShape.Object> ? ObjectShapedTomato<U, R>
-: T extends Tomato<infer U, infer R, TomatoShape.Record> ? RecordShapedTomato<U, R>
-: T
+type BakeShape<T> = T extends Tomato<infer U, infer R, TomatoShape.Atom>
+    ? AtomShapedTomato<U, R>
+    : T extends Tomato<infer U, infer R, TomatoShape.Array>
+    ? ArrayShapedTomato<U, R>
+    : T extends Tomato<infer U, infer R, TomatoShape.Object>
+    ? ObjectShapedTomato<U, R>
+    : T extends Tomato<infer U, infer R, TomatoShape.Record>
+    ? RecordShapedTomato<U, R>
+    : T;
 
 export type ArrayTomato<T extends AnyShapeTomato = any> = ArrayShapedTomato<T, false>;
 export type ObjectTomato<T = any> = ObjectShapedTomato<T, false>;
