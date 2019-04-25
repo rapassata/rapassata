@@ -72,7 +72,7 @@ describe('Validation (composite)', () => {
                     number: number,
                 }),
                 colors: array(string.defaultTo('red')).defaultTo([]),
-                // ratedHobbies: objectOf(number).require(),
+                ratedHobbies: objectOf(number).require(),
             }),
         });
         test('validate OK', () => {
@@ -84,6 +84,10 @@ describe('Validation (composite)', () => {
                         number: 123,
                     },
                     colors: ['red'],
+                    ratedHobbies: {
+                        x: 12,
+                        y: 'foo'
+                    }
                 },
             };
             expect(validate(schema, value)).toMatchSnapshot();

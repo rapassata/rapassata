@@ -174,6 +174,11 @@ Object {
           "errors": Array [],
           "value": undefined,
         },
+        "ratedHobbies": Object {
+          "errors": Array [],
+          "structure": Object {},
+          "value": undefined,
+        },
       },
       "value": undefined,
     },
@@ -222,6 +227,29 @@ Object {
             "red",
           ],
         },
+        "ratedHobbies": Object {
+          "errors": Array [],
+          "structure": Object {
+            "x": Object {
+              "errors": Array [],
+              "value": 12,
+            },
+            "y": Object {
+              "errors": Array [
+                Object {
+                  "message": "Not a number",
+                  "result": false,
+                  "value": "foo",
+                },
+              ],
+              "value": "foo",
+            },
+          },
+          "value": Object {
+            "x": 12,
+            "y": "foo",
+          },
+        },
       },
       "value": Object {
         "address": Object {
@@ -232,6 +260,10 @@ Object {
         "colors": Array [
           "red",
         ],
+        "ratedHobbies": Object {
+          "x": 12,
+          "y": "foo",
+        },
       },
     },
   },
@@ -245,6 +277,10 @@ Object {
       "colors": Array [
         "red",
       ],
+      "ratedHobbies": Object {
+        "x": 12,
+        "y": "foo",
+      },
     },
   },
 }
