@@ -1,4 +1,5 @@
-import { string, validate, number, array, object, boolean } from 'lib/validate';
+import { string, number, array, object, boolean, objectOf } from 'lib/breeds';
+import { validate } from 'lib/validate';
 
 describe('Schemas', () => {
     test('string', () => {

@@ -38,4 +38,8 @@ export type UnbakeTomato<T> = T extends AtomShapedTomato<infer U, infer R>
 // (AtomShapedTomato<...X> | ArrayShapedTomato<...X> | ...) => Value (recursive)
 export type Values<T> = TomatoToValues<UnbakeTomato<T>>;
 
+// as Values, but allows to specify TomatoToValues parameters
 export type Values2<T, U, S> = TomatoToValues<UnbakeTomato<T>, U, S>;
+
+
+export const isObject = (x: any) => typeof x === 'object' && x && x.constructor === Object;

@@ -125,6 +125,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not an object",
+      "result": false,
       "value": undefined,
     },
   ],
@@ -133,6 +134,7 @@ Object {
       "errors": Array [
         Object {
           "message": "Not an object",
+          "result": false,
           "value": undefined,
         },
       ],
@@ -141,6 +143,7 @@ Object {
           "errors": Array [
             Object {
               "message": "Not an object",
+              "result": false,
               "value": undefined,
             },
           ],
@@ -149,6 +152,7 @@ Object {
               "errors": Array [
                 Object {
                   "message": "Not a number",
+                  "result": false,
                   "value": undefined,
                 },
               ],
@@ -267,6 +271,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not an array",
+      "result": false,
       "value": null,
     },
   ],
@@ -286,6 +291,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not a boolean",
+      "result": false,
       "value": null,
     },
   ],
@@ -305,6 +311,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not a number",
+      "result": false,
       "value": null,
     },
   ],
@@ -332,6 +339,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not an object",
+      "result": null,
       "value": null,
     },
   ],
@@ -340,6 +348,7 @@ Object {
       "errors": Array [
         Object {
           "message": "Not a string",
+          "result": false,
           "value": undefined,
         },
       ],
@@ -362,6 +371,7 @@ Object {
   "errors": Array [
     Object {
       "message": "Not a string",
+      "result": false,
       "value": null,
     },
   ],
