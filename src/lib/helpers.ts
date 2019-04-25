@@ -6,7 +6,7 @@ import {
     RecordShapedTomato,
     Tomato,
     TomatoShape,
-} from './tomatos';
+} from './tomatoes';
 
 // T => T | ?T
 export type ProcessRequired<T, R> = R extends true ? T : T | undefined;

@@ -6,7 +6,7 @@ import {
     TomatoShape,
     Breeds,
     RecordTomato,
-} from './tomatos';
+} from './tomatoes';
 import { FlowType } from './validate';
 import { isObject } from './helpers';
 

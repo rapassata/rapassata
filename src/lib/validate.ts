@@ -1,4 +1,4 @@
-import { AnyShapeTomato, TomatoShape } from './tomatos';
+import { AnyShapeTomato, TomatoShape } from './tomatoes';
 import { isObject } from './helpers';
 
 export enum FlowType {
