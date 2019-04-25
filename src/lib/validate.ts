@@ -1,4 +1,4 @@
-import { AnyShapeTomato, ArrayTomato, AtomShapedTomato, ObjectTomato, TomatoShape } from './tomatos';
+import { AnyShapeTomato, ArrayTomato, AtomShapedTomato, ObjectTomato, TomatoShape, Breeds, RecordTomato } from './tomatos';
 
 enum FlowType {
     Transform = 'Transform',
@@ -100,6 +100,35 @@ export const object = <T>(structure: T): ObjectTomato<T> => {
     };
     return node.validate(isObject, 'Not an object');
 };
+
+export const objectOf = <T extends AnyShapeTomato>(val: T): RecordTomato<T> => {
+    const node: RecordTomato<T> = {
+        item: val,
+        shape: TomatoShape.Record,
+        flow: [],
+        required: false,
+        default: undefined,
+        validate: (validate, message = '') => ({
+            ...node,
+            flow: [...node.flow, { message, validate, type: FlowType.Validate }],
+        }),
+        require: () => ({ ...node, required: true }),
+        defaultTo: x => ({ ...node, default: x }),
+    };
+    return node.validate(isObject, 'Not an object');
+};
+
+
+export const breeds: Breeds = {
+    string,
+    number,
+    boolean,
+    object,
+    // TODO:
+    objectOf: objectOf as any,
+    array,
+    any
+}
 
 const runFlow = (flow: FlowItem[], value: any) => {
     const errors: ValidationError[] = [];
