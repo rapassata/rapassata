@@ -1,17 +1,17 @@
 import {
-    AnyShapeTomato,
     ArrayTomato,
-    AtomShapedTomato,
+    AtomTomato,
     ObjectTomato,
     TomatoShape,
     Breeds,
     RecordTomato,
+    Tomato,
 } from './tomatoes';
 import { FlowType } from './validate';
 import { isObject } from './helpers';
 
 const baseNode = <B extends { shape: TomatoShape.Atom }, T>(base: B) => {
-    const node: AtomShapedTomato<T> = {
+    const node: AtomTomato<T> = {
         ...base,
         flow: [],
         required: false,
@@ -20,6 +20,10 @@ const baseNode = <B extends { shape: TomatoShape.Atom }, T>(base: B) => {
             ...node,
             flow: [...node.flow, { message, validate, type: FlowType.Validate }],
         }),
+        transform: (transform) => ({
+            ...node,
+            flow: [...node.flow, { transform, type: FlowType.Transform }],
+        }),
         require: () => ({ ...node, required: true }),
         defaultTo: x => ({ ...node, default: x }),
     };
@@ -27,32 +31,32 @@ const baseNode = <B extends { shape: TomatoShape.Atom }, T>(base: B) => {
 };
 
 const atomNode = <T>() => {
-    const node: AtomShapedTomato<T> = baseNode({
+    const node: AtomTomato<T> = baseNode({
         shape: TomatoShape.Atom,
     });
     return node;
 };
 
-export const string: AtomShapedTomato<string> = (() => {
+export const string: AtomTomato<string> = (() => {
     const node = atomNode<string>();
     return node.validate(x => typeof x === 'string', 'Not a string');
 })();
 
-export const any: AtomShapedTomato<any> = (() => {
+export const any: AtomTomato<any> = (() => {
     return atomNode<any>();
 })();
 
-export const number: AtomShapedTomato<number> = (() => {
+export const number: AtomTomato<number> = (() => {
     const node = atomNode<number>();
     return node.validate(x => typeof x === 'number', 'Not a number');
 })();
 
-export const boolean: AtomShapedTomato<boolean> = (() => {
+export const boolean: AtomTomato<boolean> = (() => {
     const node = atomNode<boolean>();
     return node.validate(x => typeof x === 'boolean', 'Not a boolean');
 })();
 
-export const array = <T extends AnyShapeTomato>(item: T): ArrayTomato<T> => {
+export const array = <T extends Tomato<any, any>>(item: T): ArrayTomato<T> => {
     const node: ArrayTomato<T> = {
         item,
         shape: TomatoShape.Array,
@@ -62,6 +66,10 @@ export const array = <T extends AnyShapeTomato>(item: T): ArrayTomato<T> => {
         validate: (validate, message = '') => ({
             ...node,
             flow: [...node.flow, { message, validate, type: FlowType.Validate }],
+        }),
+        transform: (transform) => ({
+            ...node,
+            flow: [...node.flow, { transform, type: FlowType.Transform }],
         }),
         require: () => ({ ...node, required: true }),
         defaultTo: x => ({ ...node, default: x }),
@@ -81,13 +89,17 @@ export const object = <T>(structure: T): ObjectTomato<T> => {
             ...node,
             flow: [...node.flow, { message, validate, type: FlowType.Validate }],
         }),
+        transform: (transform) => ({
+            ...node,
+            flow: [...node.flow, { transform, type: FlowType.Transform }],
+        }),
         require: () => ({ ...node, required: true }),
         defaultTo: x => ({ ...node, default: x }),
     };
     return node.validate(isObject, 'Not an object');
 };
 
-export const objectOf = <T extends AnyShapeTomato>(val: T): RecordTomato<T> => {
+export const objectOf = <T extends Tomato<any, any>>(val: T): RecordTomato<T> => {
     const node: RecordTomato<T> = {
         item: val,
         shape: TomatoShape.Record,
@@ -97,6 +109,10 @@ export const objectOf = <T extends AnyShapeTomato>(val: T): RecordTomato<T> => {
         validate: (validate, message = '') => ({
             ...node,
             flow: [...node.flow, { message, validate, type: FlowType.Validate }],
+        }),
+        transform: (transform) => ({
+            ...node,
+            flow: [...node.flow, { transform, type: FlowType.Transform }],
         }),
         require: () => ({ ...node, required: true }),
         defaultTo: x => ({ ...node, default: x }),

@@ -1,45 +1,32 @@
-import {
-    AnyShapeTomato,
-    ArrayShapedTomato,
-    AtomShapedTomato,
-    ObjectShapedTomato,
-    RecordShapedTomato,
-    Tomato,
-    TomatoShape,
-} from './tomatoes';
+import { BaseTomato, TomatoShape, UnbakeTomato } from './tomatoes';
+
 
 // T => T | ?T
 export type ProcessRequired<T, R> = R extends true ? T : T | undefined;
 
 // Tomato<I, R, S> => I OR ?I based on R
-type UnwrapTomato<T> = T extends Tomato<infer I, infer R, infer S> ? ProcessRequired<I, R> : T;
+type UnwrapTomato<T> = T extends BaseTomato<infer I, infer R, infer S> ? ProcessRequired<I, R> : T;
 
 // Tomato<I, R, S> => S
-type UnwrapTomatoShape<T> = T extends Tomato<infer T, infer R, infer S> ? S : T;
+type UnwrapTomatoShape<T> = T extends BaseTomato<infer T, infer R, infer S> ? S : T;
 
 // Tomato<I, R, S> => Value (recursive)
-export type TomatoToValues<T, U = UnwrapTomato<T>, S = UnwrapTomatoShape<T>> = S extends TomatoShape.Atom
+export type TomatoToValues<T, R, S extends TomatoShape> = S extends TomatoShape.Atom
+    ? T
+    : S extends TomatoShape.Array
+    ? Array<UnwrapTomato<UnbakeTomato<T>>>
+    : S extends TomatoShape.Record
+    ? Record<any, UnwrapTomato<T>>
+    : { [key in keyof T]: TomatoToValuesWhole<UnbakeTomato<T[key]>> };
+
+// // Tomato<I, R, S> => Value (recursive)
+export type TomatoToValuesWhole<T, U = UnwrapTomato<T>, S = UnwrapTomatoShape<T>> = S extends TomatoShape.Atom
     ? U
     : S extends TomatoShape.Array
     ? Array<UnwrapTomato<UnbakeTomato<U>>>
-    : { [key in keyof U]: TomatoToValues<UnbakeTomato<U[key]>> };
+    : S extends TomatoShape.Record
+    ? Record<any, UnwrapTomato<T>>
+    : { [key in keyof U]: TomatoToValuesWhole<UnbakeTomato<U[key]>> };
 
-// (AtomShapedTomato<...X> | ArrayShapedTomato<...X> | ...) => Tomato<...X, S>
-export type UnbakeTomato<T> = T extends AtomShapedTomato<infer U, infer R>
-    ? Tomato<U, R, TomatoShape.Atom>
-    : T extends ArrayShapedTomato<infer U, infer R>
-    ? Tomato<U, R, TomatoShape.Array>
-    : T extends ObjectShapedTomato<infer U, infer R>
-    ? Tomato<U, R, TomatoShape.Object>
-    : T extends RecordShapedTomato<infer U, infer R>
-    ? Tomato<U, R, TomatoShape.Record>
-    : T;
-
-// (AtomShapedTomato<...X> | ArrayShapedTomato<...X> | ...) => Value (recursive)
-export type Values<T> = TomatoToValues<UnbakeTomato<T>>;
-
-// as Values, but allows to specify TomatoToValues parameters
-export type Values2<T, U, S> = TomatoToValues<UnbakeTomato<T>, U, S>;
-
-
+export type Values<T> = T extends BaseTomato<infer X, infer R, infer S> ? ProcessRequired<TomatoToValues<X, R, S>, R> : never;
 export const isObject = (x: any) => typeof x === 'object' && x && x.constructor === Object;

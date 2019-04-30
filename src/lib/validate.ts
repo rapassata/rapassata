@@ -1,4 +1,4 @@
-import { AnyShapeTomato, TomatoShape } from './tomatoes';
+import { Tomato, TomatoShape } from './tomatoes';
 import { isObject } from './helpers';
 
 export enum FlowType {
@@ -43,7 +43,7 @@ const runFlow = (flow: FlowItem[], value: any) => {
     };
 };
 
-export const validate = (schema: AnyShapeTomato, value: any): any => {
+export const validate = (schema: Tomato<any, any>, value: any): any => {
     const flowRes = runFlow(schema.flow, value);
     if (schema.required && value === undefined) {
         flowRes.errors.push({
