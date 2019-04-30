@@ -24,11 +24,13 @@ Object {
     "require": [Function],
     "required": false,
     "shape": "Atom",
+    "transform": [Function],
     "validate": [Function],
   },
   "require": [Function],
   "required": false,
   "shape": "Array",
+  "transform": [Function],
   "validate": [Function],
 }
 `;
@@ -47,6 +49,7 @@ Object {
   "require": [Function],
   "required": false,
   "shape": "Atom",
+  "transform": [Function],
   "validate": [Function],
 }
 `;
@@ -65,6 +68,7 @@ Object {
   "require": [Function],
   "required": false,
   "shape": "Atom",
+  "transform": [Function],
   "validate": [Function],
 }
 `;
@@ -96,8 +100,10 @@ Object {
     "require": [Function],
     "required": false,
     "shape": "Atom",
+    "transform": [Function],
     "validate": [Function],
   },
+  "transform": [Function],
   "validate": [Function],
 }
 `;
@@ -116,6 +122,7 @@ Object {
   "require": [Function],
   "required": false,
   "shape": "Atom",
+  "transform": [Function],
   "validate": [Function],
 }
 `;
@@ -175,8 +182,13 @@ Object {
           "value": undefined,
         },
         "ratedHobbies": Object {
-          "errors": Array [],
-          "structure": Object {},
+          "errors": Array [
+            Object {
+              "message": "Missing required value",
+              "result": false,
+              "value": undefined,
+            },
+          ],
           "value": undefined,
         },
       },
