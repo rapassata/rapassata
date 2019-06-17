@@ -44,14 +44,19 @@ const runFlow = (flow: FlowItem[], value: any) => {
 };
 
 export const validate = (schema: Tomato<any, any>, value: any): any => {
+    
     const flowRes = runFlow(schema.flow, value);
-    if (schema.required && value === undefined) {
-        flowRes.errors.push({
-            message: 'Missing required value',
-            value,
-            result: false,
-        });
-        return flowRes;
+    if (value === undefined) {
+        if (schema.default !== undefined) {
+            value = schema.default;
+        } else if (schema.required) {
+            flowRes.errors.push({
+                message: 'Missing required value',
+                value,
+                result: false,
+            });
+            return flowRes;
+        }
     }
     if (schema.shape === TomatoShape.Atom) {
         return flowRes;
