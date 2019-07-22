@@ -6,9 +6,31 @@ import {
     Breeds,
     RecordTomato,
     Tomato,
+    OrTomato,
 } from './tomatoes';
 import { FlowType } from './validate';
 import { isObject } from './helpers';
+
+type Or<A extends boolean, B extends boolean> = A extends true ? B extends true ? true : false : false;
+export const or = <A extends Tomato<At, Ar>, B extends Tomato<Bt, Br>, At, Ar extends boolean, Bt, Br extends boolean>(a: A, b: B) => {
+    const node: OrTomato<At | Bt, Or<Ar, Br>> = {
+        ...a as any,
+        ...b as any,
+        flow: [],
+        required: false,
+        default: undefined,
+        validate: (validate, message = '') => ({
+            ...node,
+            flow: [...node.flow, { message, validate, type: FlowType.Validate }],
+        }),
+        transform: (transform) => ({
+            ...node,
+            flow: [...node.flow, { transform, type: FlowType.Transform }],
+        }),
+        require: () => ({ ...node, required: true }),
+        defaultTo: x => ({ ...node, default: x }),
+    }
+}
 
 const baseNode = <B extends { shape: TomatoShape.Atom }, T>(base: B) => {
     const node: AtomTomato<T> = {

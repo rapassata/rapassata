@@ -6,12 +6,14 @@ export const enum TomatoShape {
     Array = 'Array',
     Object = 'Object',
     Record = 'Record',
+    Or = 'Or',
 }
 
 export type BakeTomato<T, R, S> = S extends TomatoShape.Atom ? AtomTomato<T, R> :
     S extends TomatoShape.Array ? ArrayTomato<T, R> :
     S extends TomatoShape.Object ? ObjectTomato<T, R> :
     S extends TomatoShape.Record ? RecordTomato<T, R> :
+    S extends TomatoShape.Or ? OrTomato<T, R> :
     never;
 
 export type UnbakeTomato<T> = T extends AtomTomato<infer U, infer R>
@@ -40,6 +42,8 @@ export interface BaseTomato<T, R, S extends TomatoShape> {
     validate: (fn: (val: TomatoToValues<T, R, S>) => Promise<boolean> | boolean, message?: string) => BakeTomato<T, R, S>;
 }
 
+type s = BakeTomato<boolean | string, true, TomatoShape.Or>
+
 export interface AtomTomato<T, R = false> extends BaseTomato<T, R, TomatoShape.Atom> {
     shape: TomatoShape.Atom;
 }
@@ -55,8 +59,12 @@ export interface RecordTomato<T, R = false> extends BaseTomato<T, R, TomatoShape
     item: T;
     shape: TomatoShape.Record;
 }
+export interface OrTomato<T, R = false> extends BaseTomato<T, R, TomatoShape.Or> {
+    shape: TomatoShape.Or;
+    fn: 'or';
+}
 
-export type Tomato<T, R = false> = AtomTomato<T, R> | ArrayTomato<T, R> | ObjectTomato<T, R> | RecordTomato<T, R>;
+export type Tomato<T, R = false> = AtomTomato<T, R> | ArrayTomato<T, R> | ObjectTomato<T, R> | RecordTomato<T, R> | OrTomato<T, R>;
 
 // Builders
 export interface Breeds {
